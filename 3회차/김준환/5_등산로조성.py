@@ -93,25 +93,28 @@ for i in range(t):
                 if copy_matrix[nx][ny] < copy_matrix[x][y] : # 현재 위치의 값 보다 작은 경우
                     copy_matrix[x][y] = 50 # 20이하 높이니까 그냥 50
                     cnt += 1
+                    cut_cnt.append(cut_cnt[-1])
                     print('??')
                     
                     
                     Dfs(nx, ny) # 방문 한 섬에서 dfs실행
                     
                 else:
-                    if cut_cnt == 0:   # 컷 아이템을 사용한 적이 없으면
+                    if cut_cnt[-1] == 0:   # 컷 아이템을 사용한 적이 없으면
                         for cut in range(1,k+1):
                             if copy_matrix[nx][ny] - cut < copy_matrix[x][y]:
                                 copy_matrix[nx][ny] -= cut
                                 cnt = 1
                                 print('?')
-                                cut_cnt += 1
+                                cut_cnt.append(1)
                                 Dfs(nx,ny)
                             else:
-                                
+                                cut_cnt.append(cut_cnt[-1])
                     else:
-                        cut_cnt.append(1)
+                        cut_cnt.pop()
                         return
+        cut_cnt.pop()
+        return
 
 
     start_point = []     # [[0, 0], [2, 3], [2, 4]]
