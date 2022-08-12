@@ -90,6 +90,7 @@ for i in range(t):
             nx = x + dx[i] # 4방향으로 검사함
             ny = y + dy[i]
             if 0 <= nx < n and 0 <= ny < n : # 인덱스 초과 방지
+                print(f'cut_cnt : {cut_cnt}')
                 if copy_matrix[nx][ny] < copy_matrix[x][y] : # 현재 위치의 값 보다 작은 경우
                     copy_matrix[x][y] = 50 # 20이하 높이니까 그냥 50
                     cnt += 1
@@ -100,18 +101,20 @@ for i in range(t):
                     Dfs(nx, ny) # 방문 한 섬에서 dfs실행
                     
                 else:
+                    
                     if cut_cnt[-1] == 0:   # 컷 아이템을 사용한 적이 없으면
+
                         for cut in range(1,k+1):
                             if copy_matrix[nx][ny] - cut < copy_matrix[x][y]:
                                 copy_matrix[nx][ny] -= cut
-                                cnt = 1
+                                cnt += 1
                                 print('?')
                                 cut_cnt.append(1)
                                 Dfs(nx,ny)
-                            else:
-                                cut_cnt.append(cut_cnt[-1])
+
                     else:
                         cut_cnt.pop()
+                        cnt -= 1
                         return
         cut_cnt.pop()
         return
@@ -136,4 +139,5 @@ for i in range(t):
         print(f'i, j : {i},{j}')
         Dfs(i, j)
         answer_lst.append(cnt)
+    print(answer_lst)
     print(max(answer_lst))
